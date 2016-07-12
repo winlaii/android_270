@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello Android!"
+        android:text="Hello Human!"
         android:id="@+id/textView"
         android:textSize="20dp"
         android:textColor="#033376" />
@@ -25,7 +25,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:onClick="submit"
-        android:background="@drawable/images"
+        android:background="@drawable/button"
         android:textColor="#ffffff"
         android:layout_below="@+id/radioGroup" />
 
@@ -49,16 +49,16 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="male"
             android:id="@+id/maleRadioButton"
-            android:checked="true" />
+            android:checked="true"
+            android:drawableRight="@drawable/male" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="female"
             android:id="@+id/femaleRadioButton"
-            android:checked="false" />
+            android:checked="false"
+            android:drawableRight="@drawable/female" />
     </RadioGroup>
 
 </RelativeLayout>
