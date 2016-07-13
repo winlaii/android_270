@@ -12,6 +12,9 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     TextView textView;
     EditText editText;
@@ -20,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     Spinner spinner;
 
     String selectedTea = "black tea";
+
+    List<Order> orders = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setupListView()
     {
-        String[] data = new String[]{"black tea", "green tea", "1", "2", "3", "4", "5"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, data);
+        OrderAdapter adapter = new OrderAdapter(this, orders);
         listView.setAdapter(adapter);
     }
 
@@ -73,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
     {
         String text = editText.getText().toString();
         textView.setText(text);
-        editText.setText("");
+
+        Order order = new Order();
+        order.note = text;
+        order.drinkName = selectedTea;
+        order.storeInfo = (String)spinner.getSelectedItem();
+
+        setupListView();
+        orders.add(order);
     }
 }
