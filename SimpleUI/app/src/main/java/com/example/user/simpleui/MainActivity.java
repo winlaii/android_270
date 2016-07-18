@@ -76,6 +76,15 @@ public class MainActivity extends AppCompatActivity {
                 selectedTea = radioButton.getText().toString();
             }
         });
+        String history = Utils.readFile(this, "history");
+        String[] datas = history.split("\n");
+        for(String data: datas)
+        {
+            Order order = Order.newInstanceWithData(data);
+            if (order != null)
+            orders.add(order);
+        }
+
         setupListView();
         setupSpinner();
 
@@ -106,7 +115,11 @@ public class MainActivity extends AppCompatActivity {
         order.storeInfo = (String)spinner.getSelectedItem();
 
         orders.add(order);
+
+        Utils.writeFile(this, "history", order.toData() + "\n");
+
         setupListView();
+
         editText.setText("");
         menuResults = "";
     }
