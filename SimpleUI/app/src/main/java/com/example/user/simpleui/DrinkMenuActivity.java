@@ -77,7 +77,7 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
         DrinkOrder drinkOrder = new DrinkOrder(drink);
         for(DrinkOrder order : orders)
         {
-            if(drinkOrder.drink.name.equals(drink.name))
+            if(order.drink.name.equals(drink.name))
             {
                 drinkOrder = order;
                 break;

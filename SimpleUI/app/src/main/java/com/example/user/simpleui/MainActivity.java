@@ -1,6 +1,7 @@
 package com.example.user.simpleui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
     String menuResults = "";
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     List<Order> orders = new ArrayList<>();
 
     @Override
@@ -45,9 +49,17 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView)findViewById(R.id.listView);
         spinner = (Spinner)findViewById(R.id.spinner);
 
+        sharedPreferences = getSharedPreferences("setting", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        editText.setText(sharedPreferences.getString("editText", ""));
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event){
+                String text = editText.getText().toString();
+                editor.putString("editText", text);
+                editor.commit();
+
                 if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)
                 {
                     submit(v);
@@ -96,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         orders.add(order);
         setupListView();
         editText.setText("");
+        menuResults = "";
     }
 
     public void goToMenu (View view)
