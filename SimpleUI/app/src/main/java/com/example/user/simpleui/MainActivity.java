@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     String selectedTea = "black tea";
 
+    String menuResults = "";
+
     List<Order> orders = new ArrayList<>();
 
     @Override
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         Order order = new Order();
         order.note = text;
-        order.drinkName = selectedTea;
+        order.menuResults = menuResults;
         order.storeInfo = (String)spinner.getSelectedItem();
 
         orders.add(order);
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK)
             {
                 Toast.makeText(this, "完成菜單", Toast.LENGTH_SHORT).show();
-                textView.setText(data.getStringExtra("results"));
+                menuResults = data.getStringExtra("results");
             }
         }
     }
