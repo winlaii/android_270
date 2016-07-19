@@ -81,49 +81,32 @@ public class MainActivity extends AppCompatActivity {
                 selectedTea = radioButton.getText().toString();
             }
         });
-        String history = Utils.readFile(this, "history");
-        String[] datas = history.split("\n");
-        for(String data: datas)
-        {
-            Order order = Order.newInstanceWithData(data);
-            if (order != null)
-            orders.add(order);
-        }
+// String history = Utils.readFile(this, "history");
+// String[] datas = history.split("\n");
+// for(String data: datas)
+// {
+//     Order order = Order.newInstanceWithData(data);
+//     if (order != null)
+//     orders.add(order);
+// }
 
         setupListView();
         setupSpinner();
-
-        ParseObject parseObject = new ParseObject("Test");
-        parseObject.put("foo", "bar");
-        parseObject.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null)
-                    Toast.makeText(MainActivity.this, "上傳成功", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Test");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null)
-                {
-                    for (ParseObject object: objects)
-                    {
-                        Toast.makeText(MainActivity.this, object.getString("foo"), Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-        });
 
         Log.d("Debug", "MainActivity OnCreate");
     }
 
     public void setupListView()
     {
-        OrderAdapter adapter = new OrderAdapter(this, orders);
-        listView.setAdapter(adapter);
+        Order.getOrdersFromRemote(new FindCallback<Order>() {
+            @Override
+            public void done(List<Order> objects, ParseException e) {
+                orders = objects;
+                OrderAdapter adapter = new OrderAdapter(MainActivity.this, orders);
+                listView.setAdapter(adapter);
+            }
+        });
+
     }
 
     public void setupSpinner()
@@ -139,9 +122,10 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(text);
 
         Order order = new Order();
-        order.note = text;
-        order.menuResults = menuResults;
-        order.storeInfo = (String)spinner.getSelectedItem();
+        order.setNote(text);
+        order.setMenuResults(menuResults);
+        order.setStoreInfo((String) spinner.getSelectedItem());
+        order.saveInBackground();
 
         orders.add(order);
 
