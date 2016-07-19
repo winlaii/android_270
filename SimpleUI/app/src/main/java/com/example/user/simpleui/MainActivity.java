@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(networkInfo == null || !networkInfo.isConnected())
         {
-            Order.getQuery().fromLocalDatastore().findInBackground();
+            Order.getQuery().fromLocalDatastore().findInBackground(callback);
         }
         else
         {

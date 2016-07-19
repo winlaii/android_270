@@ -100,12 +100,16 @@ public class Order extends ParseObject{
 
     public static void getOrdersFromRemote(final FindCallback<Order> callback)
     {
-        getQuery().findInBackground(new FindCallback<Order>() {
+        getQuery().findInBackground(new FindCallback<Order>() {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
             @Override
             public void done(List<Order> objects, ParseException e) {
                 if (e == null)
                 {
                     Order.pinAllInBackground("Order", objects);
+                }
+                else
+                {
+                    Order.getQuery().fromLocalDatastore().findInBackground(callback);
                 }
                 callback.done(objects,e);
             }
