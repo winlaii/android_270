@@ -16,8 +16,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -59,13 +61,12 @@ public class MainActivity extends AppCompatActivity {
         editText.setText(sharedPreferences.getString("editText", ""));
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event){
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
                 String text = editText.getText().toString();
                 editor.putString("editText", text);
                 editor.commit();
 
-                if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)
-                {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
                     submit(v);
                     return true;
                 }
@@ -97,8 +98,22 @@ public class MainActivity extends AppCompatActivity {
         parseObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if (e==null)
-                Toast.makeText(MainActivity.this,"上傳成功", Toast.LENGTH_LONG).show();
+                if (e == null)
+                    Toast.makeText(MainActivity.this, "上傳成功", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Test");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null)
+                {
+                    for (ParseObject object: objects)
+                    {
+                        Toast.makeText(MainActivity.this, object.getString("foo"), Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
 
