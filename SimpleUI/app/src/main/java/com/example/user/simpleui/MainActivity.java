@@ -154,13 +154,16 @@ public class MainActivity extends AppCompatActivity {
         order.setStoreInfo((String) spinner.getSelectedItem());
 
         order.pinInBackground("Order");
-        order.saveEventually();
+        order.saveEventually(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                setupListView();
+            }
+        });
 
         orders.add(order);
 
         Utils.writeFile(this, "history", order.toData() + "\n");
-
-        setupListView();
 
         editText.setText("");
         menuResults = "";
