@@ -112,8 +112,8 @@ public class Order extends ParseObject{
             {
                 String data = jsonArray.getString(i);
                 DrinkOrder drinkOrder = DrinkOrder.newInstanceWithData(data);
-                String menuResult = drinkOrder.drink.getName() + " 中杯:" +
-                        String.valueOf(drinkOrder.mNumber) + " 大杯:" +
+                String menuResult = drinkOrder.drink.getName() + "   中杯:" +
+                        String.valueOf(drinkOrder.mNumber) + "   大杯:" +
                         String.valueOf(drinkOrder.lNumber);
 
                 menuResultList.add(menuResult);
