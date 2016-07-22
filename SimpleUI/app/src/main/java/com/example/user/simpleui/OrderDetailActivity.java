@@ -123,6 +123,10 @@ public class OrderDetailActivity extends AppCompatActivity implements GeoCodingT
         }
 
         createLocationRequest();
+        if (locationRequest != null)
+        {
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+        }
         Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 
         LatLng start = new LatLng(25.0186348, 121.5398379);
@@ -163,7 +167,6 @@ public class OrderDetailActivity extends AppCompatActivity implements GeoCodingT
             locationRequest = new LocationRequest();
             locationRequest.setInterval(1000);
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
         }
     }
 
@@ -182,7 +185,26 @@ public class OrderDetailActivity extends AppCompatActivity implements GeoCodingT
             marker.setPosition(currentLatLng);
         }
     }
-//    public static class GeoCodingTask extends AsyncTask<String, Void, Bitmap>
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (googleApiClient != null)
+        {
+            googleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(googleApiClient != null)
+        {
+            googleApiClient.disconnect();
+        }
+    }
+
+    //    public static class GeoCodingTask extends AsyncTask<String, Void, Bitmap>
 //    {
 //        WeakReference<ImageView> imageViewWeakReference;
 //
